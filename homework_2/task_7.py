@@ -1,0 +1,21 @@
+number = int(input('Insert the number '))
+result = ''
+x, y = (divmod(number, 32))
+result += str(x)
+number = y
+x, y = (divmod(number, 16))
+result += str(x)
+number = y
+x, y = (divmod(number, 8))
+result += str(x)
+number = y
+x, y = (divmod(number, 4))
+result += str(x)
+number = y
+x, y = (divmod(number, 2))
+result += str(x)
+number = y
+x, y = (divmod(number, 1))
+result += str(x)
+number = y
+print(result)

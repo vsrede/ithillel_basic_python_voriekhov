@@ -1,0 +1,2 @@
+digit = input()
+print((ord(digit[0]) + ord(digit[1]) + ord(digit[2])) - 144)

@@ -6,6 +6,6 @@ def degrees2radians(corner_degree):  # returns float: radians value
     return corner_radians
 
 
-print(cos(degrees2radians(60)))
-print(cos(degrees2radians(45)))
-print(cos(degrees2radians(40)))
+print('cos 60 =', cos(degrees2radians(60)))
+print('cos 45 =', cos(degrees2radians(45)))
+print('cos 40 =', cos(degrees2radians(40)))

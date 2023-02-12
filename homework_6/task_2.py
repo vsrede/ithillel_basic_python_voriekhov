@@ -17,7 +17,7 @@ def main():
     x1, x2 = solve_quadratic_equation(a, b, c)
     if x1 is None:
         if x2 is None:
-            print('Корней нет')
+            print('no roots')
         else:
             print(f'x = {x2}')
     elif x1 is not None:

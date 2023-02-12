@@ -1,12 +1,12 @@
-def double_digit_first_func(digit):
-    if digit % 2 == 0 or digit == 0:
+def is_even(number):
+    if number % 2 == 0 or number == 0:
         return 'is a double digit'
     else:
         return 'is not a double digit'
 
 
-def double_digit_second_func(digit):
-    if digit % 2 == 0 or digit == 0:
+def is_even_second_func(number):
+    if number % 2 == 0 or number == 0:
         parity = 'is a double digit'
     else:
         parity = 'is not a double digit'
@@ -14,8 +14,8 @@ def double_digit_second_func(digit):
 
 
 def main():
-    print(double_digit_first_func(5))
-    print(double_digit_second_func(3))
+    print(is_even(4))
+    print(is_even_second_func(3))
 
 
 if __name__ == '__main__':

@@ -1,21 +1,28 @@
 def is_even(number):
     if number % 2 == 0 or number == 0:
-        return 'is a double digit'
+        return True
     else:
-        return 'is not a double digit'
+        return False
 
 
 def is_even_second_func(number):
     if number % 2 == 0 or number == 0:
-        result = 'is a double digit'
+        result = True
     else:
-        result = 'is not a double digit'
+        result = False
     return result
 
 
 def main():
-    print(is_even(4))
-    print(is_even_second_func(3))
+    if is_even_second_func(4):
+        print('is a double digit')
+    else:
+        print('is not a double digit')
+
+    if is_even_second_func(3):
+        print('is a double digit')
+    else:
+        print('is not a double digit')
 
 
 if __name__ == '__main__':

@@ -4,13 +4,13 @@ def is_even(number):
     else:
         return 'is not a double digit'
 
-# other varian
+
 def is_even_second_func(number):
     if number % 2 == 0 or number == 0:
-        parity = 'is a double digit'
+        result = 'is a double digit'
     else:
-        parity = 'is not a double digit'
-    return parity
+        result = 'is not a double digit'
+    return result
 
 
 def main():

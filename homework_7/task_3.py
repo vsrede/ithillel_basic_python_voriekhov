@@ -1,5 +1,5 @@
 def calculate_wheat_chess_position(kilograms):
-    weight_one = 1
+    weight_one = 0.000035
     weight_summ = 0
     chessboard_letters = 'abcdefgh'
     cell = 0

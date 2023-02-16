@@ -1,12 +1,11 @@
 def calculate_wheat_chess_position(kilograms):
-    weight_one = 0.000035
-    weight_summ = 0
+    weight_summ = 0.000035
     chessboard_letters = 'abcdefgh'
     cell = 0
     for i in range(1, 65):
-        weight_summ += weight_one * i
+        weight_summ = weight_summ * 2
         if weight_summ > kilograms:
-            cell = i - 1
+            cell = i
             break
     letters = chessboard_letters[cell//8]
     return chessboard_letters[cell//8], cell % 8

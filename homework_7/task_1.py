@@ -1,17 +1,10 @@
 def horse_move(start, end):
-    letters_board = 'abcdefgh'
-    idx_letters_start = 0
-    idx_letters_end = 0
-    if abs(int(start[1]) - int(end[1])) == 2:
-        for i in range(len(letters_board)):
-            if letters_board[i] == start[0]:
-                idx_letters_start = i
-            if letters_board[i] == end[0]:
-                idx_letters_end = i
-        if abs(idx_letters_start - idx_letters_end) == 1:
-            return True
-        else:
-            return False
+    if abs(ord(start[0]) - ord(end[0])) == 1 \
+            and abs(int(start[1]) - int(end[1])) == 2:
+        return True
+    elif abs(ord(start[0]) - ord(end[0])) == 2 \
+            and abs(int(start[1]) - int(end[1])) == 1:
+        return True
     else:
         return False
 

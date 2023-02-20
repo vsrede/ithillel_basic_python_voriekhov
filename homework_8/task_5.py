@@ -1,0 +1,27 @@
+from random import randint
+
+
+def get_max_digit(number):  # returns list of ints
+    max_use_str = 0
+    max_use_int = 0
+
+    number = str(number)
+    for i in range(len(number)):
+        if int(number[i]) > max_use_str:
+            max_use_str = int(number[i])
+
+    number = int(number)
+    while number:
+        number, x = divmod(number, 10)
+        max_use_int = max(max_use_str, x)
+    return max_use_str, max_use_int
+
+
+def main():
+    number = randint(1, 999999999999)
+    print(number)
+    print(get_max_digit(number))
+
+
+if __name__ == '__main__':
+    main()

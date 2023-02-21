@@ -1,13 +1,8 @@
 def index(lst, elem):  # returns integer or None
-    idx = -1
     for i in range(len(lst)):
         if elem == lst[i]:
             idx = i
-            break
-    if idx >= 0:
-        return idx
-    else:
-        return None
+            return idx
 
 
 def main():

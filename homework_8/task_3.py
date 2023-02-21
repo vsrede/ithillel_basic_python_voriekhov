@@ -4,9 +4,9 @@ def main():
     sorted_list_1 = sorted(original_list_1, key=float)
     print(sorted_list_1)
 
-    original_list_2 = [472, 326, 1, '1101000', '99', 9, '20', 863, '0']
+    original_list_2 = [472, 326, 1, 999.0, '1101000', '99', 9, '20', 863, '0']
     print(original_list_2)
-    sorted_list_2 = sorted(original_list_2, key=str)
+    sorted_list_2 = sorted(original_list_2, key=lambda num: str(num)[0])
     print(sorted_list_2)
 
 

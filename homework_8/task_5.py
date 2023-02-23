@@ -2,8 +2,7 @@ from random import randint
 
 
 def get_max_text(number):
-    number = str(number)
-    return max(list(map(max, number)))
+    return max(str(number))
 
 
 def get_max_digit(number):  # returns list of ints

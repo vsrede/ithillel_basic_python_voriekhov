@@ -1,8 +1,7 @@
 def index(lst, elem):  # returns integer or None
     for i in range(len(lst)):
         if elem == lst[i]:
-            idx = i
-            return idx
+            return i
 
 
 def main():

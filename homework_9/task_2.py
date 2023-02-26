@@ -11,7 +11,7 @@ def diff_odd_even(num_limit, lower_bound, upper_bound): # returns int
     for i in range(num_limit):
         if random_list[i] % 2 == 0:
             double_summ += random_list[i]
-        elif random_list[i] % 2 != 0:
+        else:
             no_double_summ += random_list[i]
 
     return double_summ - no_double_summ

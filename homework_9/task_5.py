@@ -1,5 +1,6 @@
 def group_by_surname(list_of_enrollees):  # returns 4 ints
     a_i_enrollee, j_p_enrollee, q_t_enrollee, u_z_enrollee = 0, 0, 0, 0
+    # characters acc UTF(dec)
     a_dec, i_dec, j_dec, p_dec, q_dec, t_dec = 65, 73, 74, 80, 81, 84
 
     for num in list_of_enrollees:

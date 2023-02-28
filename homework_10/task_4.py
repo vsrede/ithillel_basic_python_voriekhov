@@ -3,7 +3,7 @@ from random import randint
 
 def get_str():
     while True:
-        choice_game = input("If you wan't guess a number enter 'i', if me enter 'y': ")
+        choice_game = input("If you wan't guess a number enter 'i', if me enter 'y': ").lower()
         if choice_game == "i" or choice_game == "y":
             print("Let's start")
             break
@@ -33,7 +33,7 @@ def get_integer(choice):
             digit = digit_list[mid]
             answer = input(f"Is it your number {digit}? If yes enter 'y', "
                            f"if now please point your number bigger or smaller? "
-                           f"If smaller enter 's', if bigger enter 'b': ")
+                           f"If smaller enter 's', if bigger enter 'b': ").lower()
             if answer == 'y':
                 print("Yes, i am winner")
                 break
@@ -47,7 +47,7 @@ def get_integer(choice):
 
 def main():
     while True:
-        active = input("Do you play the game? If yes enter 'y', if now enter 'n': ")
+        active = input("Do you play the game? If yes enter 'y', if now enter 'n': ").lower()
         if active == 'y':
             get_integer(get_str())
         elif active == 'n':

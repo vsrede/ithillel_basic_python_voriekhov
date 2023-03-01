@@ -16,6 +16,10 @@ def copydeep(obj, memory=None):  # returns integer or None
         for key, value in obj.items():
             dict_rec[copydeep(key, memory)] = copydeep(value, memory)
         return dict_rec
+
+    if isinstance(obj, (int, float, str)):
+        return obj
+    
     return obj
 
 

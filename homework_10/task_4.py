@@ -1,61 +1,76 @@
 from random import randint
 
 
-def get_str():
+def get_integer(prompt):
     while True:
-        choice_game = input("If you wan't guess a number enter 'i', if me enter 'y': ").lower()
-        if choice_game == "i" or choice_game == "y":
-            print("Let's start")
-            break
-        else:
-            print("You input is not correct, repeat please")
-    return choice_game
+        try:
+            choice_input = input(prompt)
+            choice = int(choice_input)
+            return choice
+        except ValueError:
+            print('Enter the digit 0 or 1')
 
 
-def get_integer(choice):
+def get_str(prompt):
+    while True:
+        value = input(prompt)
+        if value:
+            return value
+
+
+def game(choice):
     digit_list = [x for x in range(1, 101)]
-    if choice == 'i':
-        digit = randint(1, 3)
+    if choice == 0:
+        digit = randint(1, 100)
         answer = 0
         while digit != answer:
-            answer = int(input("Enter you digit: "))
+            answer = int(input('Enter you digit: '))
             if answer == digit:
                 print("You win!")
             elif answer is not digit_list:
-                print("You input is not correct, repeat please")
+                print('You input is not correct, repeat please')
             else:
-                "Try again"
-    elif choice == 'y':
+                'Try again'
+    elif choice == 1:
         low = 1
-        high = 99
-        while low <= high:
-            mid = (low + high) // 2
-            digit = digit_list[mid]
-            answer = input(f"Is it your number {digit}? If yes enter 'y', "
-                           f"if now please point your number bigger or smaller? "
-                           f"If smaller enter 's', if bigger enter 'b': ").lower()
+        high = 100
+        answer = ''
+        while answer != 'y':
+            digit = (low + high) // 2
+            answer = input(f'Is it your number {digit}? If yes enter \'y\', '
+                           f'if now please point your number bigger or smaller? '
+                           f'If smaller enter \'s\', if bigger enter \'b\': ').lower()
             if answer == 'y':
-                print("Yes, i am winner")
+                print('Yes, i am winner')
                 break
             elif answer == 's':
-                high = mid - 1
+                high = digit - 1
             elif answer == 'b':
-                low = mid + 1
+                low = digit + 1
             else:
-                print("Your answer doesn't correct, please try again")
+                print('Your answer doesn\'t correct, please try again')
+            if high < 1 or low > 100:
+                print('You are liar')
+                break
 
 
 def main():
     while True:
-        active = input("Do you play the game? If yes enter 'y', if now enter 'n': ").lower()
-        if active == 'y':
-            get_integer(get_str())
-        elif active == 'n':
+        print('Game 0 -> Guess you')
+        print('Game 1 -> Guess I')
+        game_choice = get_integer('Enter 0 or 1: ')
+
+        if game_choice == 0 or game_choice == 1:
+            game(game_choice)
+        else:
+            print('You input incorrect, please enter again')
+
+        game_repeat = get_str('Do you wan\'t play again? Enter \'y\' or \'n\': ')
+        if game_repeat != 'y':
             print('Bye')
             break
-        else:
-            continue
 
 
 if __name__ == '__main__':
     main()
+

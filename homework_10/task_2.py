@@ -1,31 +1,44 @@
+import random
 import secrets
 import string
 
 
 def gen_pass(lenght):
-    value_pass = [string.ascii_lowercase,
-                  string.ascii_uppercase,
-                  string.digits,
+    value_pass = [*string.ascii_lowercase,
+                  *string.ascii_uppercase,
+                  *string.digits,
                   '_']
     password = list()
-    key = 0
-
     for i in range(lenght):
-        password.append(value_pass[key][secrets.randbelow(len(value_pass[key]))])
-        if i >= 1:
-            while password[i] == password[i-1]:
-                password[i] = value_pass[0][secrets.randbelow((len(value_pass[0])))]
-        if key < 3:
-            key += 1
+        password.append(value_pass[secrets.randbelow(len(value_pass))])
+    while True:
+        flag = 0
+
+        if any(x.islower() for x in password):
+            flag += 1
         else:
-            key = secrets.randbelow(3)
-            
-    password = ''.join(password)
-    return password
+            password[random.randint(0, lenght)] = random.choice(list(string.ascii_lowercase))
+
+        if any(x.isupper() for x in password):
+            flag += 1
+        else:
+            password[random.randint(0, lenght)] = random.choice(list(string.ascii_uppercase))
+
+        if any(x.isdigit() for x in password):
+            flag += 1
+        else:
+            password[random.randint(0, lenght)] = random.choice(list(string.digits))
+
+        if flag == 3:
+            return ''.join(password)
 
 
 def main():
-    length_pass = int(input('Enter the length for password '))
+    length_pass = 0
+    while length_pass < 8:
+        length_pass = int(input('Enter the length for password '))
+        if length_pass < 8:
+            print('You length can be more then 7')
     print(gen_pass(length_pass))
 
 

@@ -7,18 +7,19 @@ running = True
 # Never use real phone/fax numbers for tests. Use 555 numbers:
 # https://en.wikipedia.org/wiki/555_(telephone_number)
 phone_book = [
-    {"name": "Super", "surname": "Susanin", "age": 50, "phone_number": "+18005550102"},
-    {"name": "Sus", "surname": "Olha", "age": 15, "phone_number": "+10205550112"},
+    {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": 'cynepcyc'},
+    {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": ''}
 ]
 
 
 # ------------------------------------------------------------------------------
 def print_entry(number, entry):
     print("--[ %s ]--------------------------" % number)
-    print("| Surname: %20s |" % entry["surname"])
-    print("| Name:    %20s |" % entry["name"])
-    print("| Age:     %20s |" % entry["age"])
-    print("| Phone:   %20s |" % entry["phone_number"])
+    print("| Surname: %30s |" % entry["surname"])
+    print("| Name:    %30s |" % entry["name"])
+    print("| Age:     %30s |" % entry["age"])
+    print("| Phone:   %30s |" % entry["phone_number"])
+    print("| Instagram account:   %18s |" % entry["log_insta"])
     print()
 
 
@@ -118,6 +119,17 @@ def print_phonebook_by_age():
 
 
 # ------------------------------------------------------------------------------
+def print_phonebook_in_insta():
+    global phone_book
+    result = sorted(phone_book, key=lambda x: x['log_insta'])
+    number = 1
+    for entry in phone_book:
+        if len(entry['log_insta']) != 0 :
+            print_entry(number, entry)
+            number += 1
+
+
+# ------------------------------------------------------------------------------
 def increase_age():
     global phone_book
     plus_age = int(input('Enter the digit: '))
@@ -208,6 +220,7 @@ def print_prompt():
     print("     8 - Avr. age of all persons")
     print("     9 - Increase age by num. of years")
     print("     10 - Rename contact 'police' --> 'black list'")
+    print("     11 - Print phonebook entries instagram")
     print("-----------------------------")
     print("     s - Save to file")
     print("     l - Load from file")
@@ -230,7 +243,7 @@ def main():
                 '8': avr_age_of_all_persons,
                 '9': increase_age,
                 '10': police_contact,
-
+                '11': print_phonebook_in_insta,
 
                 '0': exit,
                 's': save_to_file,

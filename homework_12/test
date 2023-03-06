@@ -7,12 +7,8 @@ running = True
 # Never use real phone/fax numbers for tests. Use 555 numbers:
 # https://en.wikipedia.org/wiki/555_(telephone_number)
 phone_book = [
-    {"name": "Nazar", "surname": "Nazarenko", "age": 50, "phone_number": "+18005550102"},
-    {"name": "Mariia", "surname": "Mariychuk", "age": 15, "phone_number": "+18505550112"},
-    {"name": "Bamper", "surname": "Bamperov", "age": 11, "phone_number": "+18005550102"},
-    {"name": "Sus", "surname": "Susov", "age": 13, "phone_number": "+18505550112"},
     {"name": "Super", "surname": "Susanin", "age": 50, "phone_number": "+18005550102"},
-    {"name": "Sus", "surname": "Olha", "age": 15, "phone_number": "+18505550112"},
+    {"name": "Sus", "surname": "Olha", "age": 15, "phone_number": "+10205550112"},
 ]
 
 
@@ -131,6 +127,15 @@ def increase_age():
 
 
 # ------------------------------------------------------------------------------
+def danger_contact():
+    global phone_book
+    for num in phone_book:
+        if num['phone_number'][0:4] == '+102':
+            num['name'] = 'Black_list'
+    return phone_book
+
+
+# ------------------------------------------------------------------------------
 def avr_age_of_all_persons():
     global phone_book
     mid_sum_age_persons = 0
@@ -166,12 +171,11 @@ def load_from_file():
 
 
 # ------------------------------------------------------------------------------
-def danger_contact():
+def police_contact():
     global phone_book
     for num in phone_book:
         if num['phone_number'][0:4] == '+102':
             num['name'] = 'Black_list'
-    return phone_book
 
 
 # ------------------------------------------------------------------------------
@@ -203,6 +207,7 @@ def print_prompt():
     print("     7 - The number of entries in the phonebook")
     print("     8 - Avr. age of all persons")
     print("     9 - Increase age by num. of years")
+    print("     10 - Rename contact 'police' --> 'black list'")
     print("-----------------------------")
     print("     s - Save to file")
     print("     l - Load from file")
@@ -224,6 +229,8 @@ def main():
                 '7': count_all_entries_in_phonebook,
                 '8': avr_age_of_all_persons,
                 '9': increase_age,
+                '10': police_contact,
+
 
                 '0': exit,
                 's': save_to_file,

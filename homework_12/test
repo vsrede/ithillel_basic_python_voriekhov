@@ -7,8 +7,7 @@ running = True
 # Never use real phone/fax numbers for tests. Use 555 numbers:
 # https://en.wikipedia.org/wiki/555_(telephone_number)
 phone_book = [
-    {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": 'cynepcyc'},
-    {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": ''}
+    {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": 'cynepcyc'}
 ]
 
 
@@ -42,12 +41,14 @@ def add_entry_phonebook():
     name = input("    Enter name: ")
     age = int(input("    Enter age: "))
     phone_number = input("    Enter phone num.: ")
+    log_insta = input((" Enter login instagram: "))
 
     entry = {}
     entry["surname"] = surname
     entry["name"] = name
     entry["age"] = age
     entry["phone_number"] = phone_number
+    entry["log_insta"] = log_insta
     phone_book.append(entry)
 
 
@@ -162,12 +163,20 @@ def save_to_file():
     while True:
         action = input('Do you wan\'t save your contact file? If yes enter "y", else "n": ').lower()
         if action == 'y':
-            f = open('exoprt_phone_book.json', 'w')
-            contents = dumps(phone_book)
-            f.write(contents)
+            f = open('export_phone_book.json')
+            import_phone_book = load(f)
             f.close()
-            print('Successful')
-            break
+            if import_phone_book != phone_book:
+                action_if_dif = input('the saved file and the file you are trying to save are different, '
+                                'are you sure?: '
+                               'if yes enter "y", if no enter "n"').lower()
+                if action_if_dif == 'y':
+                    f = open('export_phone_book.json', 'w')
+                    contents = dumps(phone_book)
+                    f.write(contents)
+                    f.close()
+                    print('Successful')
+                    break
         elif action == 'n':
             break
         else:
@@ -176,7 +185,7 @@ def save_to_file():
 
 # ------------------------------------------------------------------------------
 def load_from_file():
-    f = open('exoprt_phone_book.json')
+    f = open('export_phone_book.json')
     new_phone_book = load(f)
     f.close()
     print(new_phone_book)
@@ -195,6 +204,11 @@ def add_key_login_insta():
     global phone_book
     for num in phone_book:
         num['instagram'] = ''
+
+
+# ------------------------------------------------------------------------------
+def get_input_str(prompt=None, options=None):
+    pass
 
 
 # ------------------------------------------------------------------------------

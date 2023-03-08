@@ -88,9 +88,7 @@ def find_entry_name_phonebook():
             idx += 1
             found = True
     if not found:
-        printError("Not found!!")
-
-
+        print("Not found!!")
 find_entry_name_phonebook = start_end_text(find_entry_name_phonebook)
 
 
@@ -110,7 +108,8 @@ def find_entry_age_phonebook():
             counter += 1
             print_entry(counter, phone_book[i])
     if counter == 0:
-        printError("Not found!!")
+        print("Not found!!")
+find_entry_age_phonebook = start_end_text(find_entry_age_phonebook)
 
 
 # check_good------------------------------------------------------------------------------
@@ -129,11 +128,13 @@ def delete_entry_name_phonebook():
             if phone_book[i]['name'] != name:
                 copy_phone_book.append(phone_book[i])
         phone_book = copy.deepcopy(copy_phone_book)
+delete_entry_name_phonebook = start_end_text(delete_entry_name_phonebook)
 
 
 # ------------------------------------------------------------------------------
 def count_all_entries_in_phonebook():
     print("Total number of entries: ", len(phone_book))
+count_all_entries_in_phonebook = start_end_text(count_all_entries_in_phonebook)
 
 
 # ------------------------------------------------------------------------------
@@ -144,6 +145,7 @@ def print_phonebook_by_age():
     for entry in phone_book:
         print_entry(number, entry)
         number += 1
+print_phonebook_by_age = start_end_text(print_phonebook_by_age)
 
 
 # ------------------------------------------------------------------------------
@@ -155,6 +157,7 @@ def print_phonebook_in_insta():
         if len(entry['log_insta']) != 0:
             print_entry(number, entry)
             number += 1
+print_phonebook_in_inst = start_end_text(print_phonebook_in_insta)
 
 
 # check_good------------------------------------------------------------------------------
@@ -164,6 +167,7 @@ def increase_age():
     if get_input_str('Are you sure? Enter "y" if yes, "n" if no: ', dict_yes_or_no):
         for num in phone_book:
             num['age'] += plus_age
+increase_age = start_end_text(increase_age)
 
 
 # ------------------------------------------------------------------------------
@@ -173,6 +177,7 @@ def danger_contact():
         if num['phone_number'][0:4] == '+102':
             num['name'] = 'Black_list'
     return phone_book
+danger_contact = start_end_text(danger_contact)
 
 
 # ------------------------------------------------------------------------------
@@ -182,6 +187,7 @@ def avr_age_of_all_persons():
     for num in phone_book:
         mid_sum_age_persons += (num['age'] // 2)
     print(f'The rounded average age is: {mid_sum_age_persons}')
+avr_age_of_all_persons = start_end_text(avr_age_of_all_persons)
 
 
 # check_good------------------------------------------------------------------------------
@@ -202,6 +208,7 @@ def save_to_file():
             print('The saved file and the file you are trying to save are same')
         else:
             print('Maybe next time...')
+save_to_file = start_end_text(save_to_file)
 
 
 # ------------------------------------------------------------------------------
@@ -212,6 +219,7 @@ def load_from_file():
         f = open('export_phone_book.json')
         phone_book = load(f)
         f.close()
+load_from_file = start_end_text(load_from_file)
 
 
 # ------------------------------------------------------------------------------
@@ -220,13 +228,7 @@ def police_contact():
     for num in phone_book:
         if num['phone_number'][0:4] == '+102':
             num['name'] = 'Black_list'
-
-
-# ------------------------------------------------------------------------------
-def add_key_login_insta():
-    global phone_book
-    for num in phone_book:
-        num['instagram'] = ''
+police_contact = start_end_text(police_contact)
 
 
 # ------------------------------------------------------------------------------

@@ -1,17 +1,21 @@
 def get_input_str(prompt=None, options=None):
-    my_libr = [{1: 'yes', 2: 'no'}, {3: 'true', 4: 'false'}]
-    while True:
+    if prompt is None:
+        prompt = 'Enter something: '
+    a = ''
+    while not a:
         a = input(prompt)
-        if a in my_libr[options].values():
-            return True
-        else:
-            print('Try again')
+        if options:
+            if a in options:
+                print('this key is exist')
+                break
+            else:
+                print('Error')
 
 
-def one():
-    if get_input_str(prompt='Enter : ', options=0):
-        print('all ok')
 
 
-one()
-print('it is working')
+some_dict = {'a': 'User guesses', 'b': 'Program guesses'}
+
+
+get_input_str()
+

@@ -198,15 +198,20 @@ def save_to_file():
                 contents = dumps(phone_book)
                 f.write(contents)
                 f.close()
-        else:
+        elif import_phone_book == phone_book:
             print('The saved file and the file you are trying to save are same')
+        else:
+            print('Maybe next time...')
+
 
 # ------------------------------------------------------------------------------
 def load_from_file():
-    f = open('export_phone_book.json')
-    new_phone_book = load(f)
-    f.close()
-    print(new_phone_book)
+    save_to_file()
+    global phone_book
+    if get_input_str('Do you want to download a contact book? Enter "y" if yes, "n" if no: ', dict_yes_or_no):
+        f = open('export_phone_book.json')
+        phone_book = load(f)
+        f.close()
 
 
 # ------------------------------------------------------------------------------

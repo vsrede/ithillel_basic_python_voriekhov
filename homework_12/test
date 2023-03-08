@@ -1,6 +1,8 @@
 import copy
 from json import load, dumps
 
+from utilities.check_valid_inp import get_input_str
+
 running = True
 
 # ------------------------------------------------------------------------------
@@ -64,10 +66,20 @@ def printInfo(message):
     print("INFO: %s" % message)
 
 
+def start_end_text(func):
+
+    def another_func(*args, **kwargs):
+        print('Starting to process your request')
+        func(*args, **kwargs)
+        print('Processing is over')
+
+    return another_func
+
+
 # ------------------------------------------------------------------------------
 def find_entry_name_phonebook():
     global phone_book
-    name = str(input("Enter name: "))
+    name = str(input("Enter name: ")).capitalize()
     idx = 1
     found = False
     for entry in phone_book:
@@ -77,6 +89,9 @@ def find_entry_name_phonebook():
             found = True
     if not found:
         printError("Not found!!")
+
+
+find_entry_name_phonebook = start_end_text(find_entry_name_phonebook)
 
 
 # check_good------------------------------------------------------------------------------
@@ -167,21 +182,6 @@ def avr_age_of_all_persons():
     for num in phone_book:
         mid_sum_age_persons += (num['age'] // 2)
     print(f'The rounded average age is: {mid_sum_age_persons}')
-
-
-# ------------------------------------------------------------------------------
-def get_input_str(prompt=None, options=None):
-    if prompt is None:
-        prompt = 'Enter something...: '
-    a = ''
-    while True:
-        a = input(prompt)
-        if options:
-            if a in options:
-                print(options[a])
-                return True
-            else:
-                print('Try again, valid enter "y" or "n": ')
 
 
 # check_good------------------------------------------------------------------------------

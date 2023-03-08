@@ -1,8 +1,10 @@
 import copy
 from json import load, dumps
-
 from utilities.check_valid_inp import get_input_str
-
+import argparse
+parser = argparse.ArgumentParser(prog='PhoneBook')
+parser.add_argument(r'C:\Users\Cocos\PycharmProjects\Hillel\homework_12\export_phone_book.json')
+#parser.add_argument('-v', '--verbose', action='store_true')
 running = True
 
 # ------------------------------------------------------------------------------
@@ -66,6 +68,7 @@ def printInfo(message):
     print("INFO: %s" % message)
 
 
+# ------------------------------------------------------------------------------
 def start_end_text(func):
 
     def another_func(*args, **kwargs):
@@ -79,16 +82,17 @@ def start_end_text(func):
 # ------------------------------------------------------------------------------
 def find_entry_name_phonebook():
     global phone_book
-    name = str(input("Enter name: ")).capitalize()
+    name = str(input('Enter name: ')).capitalize()
     idx = 1
     found = False
+
     for entry in phone_book:
-        if entry["name"] == name:
+        if entry['name'] == name:
             print_entry(idx, entry)
             idx += 1
             found = True
     if not found:
-        print("Not found!!")
+        print('Not found!!')
 find_entry_name_phonebook = start_end_text(find_entry_name_phonebook)
 
 
@@ -96,8 +100,9 @@ find_entry_name_phonebook = start_end_text(find_entry_name_phonebook)
 def find_entry_age_phonebook():
     global phone_book
     age = input('Enter age: ')
+
     while True:
-        age = input('Age can only be an integer, try again: ')
+        age = input('Try again,the age can only be an integer, try again: ')
         if age.isdigit():
             age = int(age)
             break
@@ -116,6 +121,7 @@ find_entry_age_phonebook = start_end_text(find_entry_age_phonebook)
 def delete_entry_name_phonebook():
     global phone_book
     name = input('Enter the name: ').capitalize()
+
     while True:
         if name.isalpha():
             break

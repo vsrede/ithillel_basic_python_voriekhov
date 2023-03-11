@@ -1,4 +1,3 @@
-import random
 import secrets
 import string
 
@@ -17,17 +16,17 @@ def gen_pass(lenght):
         if any(x.islower() for x in password):
             flag += 1
         else:
-            password[random.randint(0, lenght)] = string.ascii_lowercase[secrets.randbelow(len(string.ascii_lowercase))]
+            password[secrets.randbelow(lenght)] = string.ascii_lowercase[secrets.randbelow(len(string.ascii_lowercase))]
 
         if any(x.isupper() for x in password):
             flag += 1
         else:
-            password[random.randint(0, lenght)] = string.ascii_uppercase[secrets.randbelow(len(string.ascii_uppercase))]
+            password[secrets.randbelow(lenght)] = string.ascii_uppercase[secrets.randbelow(len(string.ascii_uppercase))]
 
         if any(x.isdigit() for x in password):
             flag += 1
         else:
-            password[random.randint(0, lenght)] = string.digits[secrets.randbelow(len(string.digits))]
+            password[secrets.randbelow(lenght)] = string.digits[secrets.randbelow(len(string.digits))]
 
         for i in range(1, lenght):
             if password[i] == password[i - 1]:

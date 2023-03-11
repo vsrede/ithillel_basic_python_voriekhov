@@ -17,17 +17,23 @@ def gen_pass(lenght):
         if any(x.islower() for x in password):
             flag += 1
         else:
-            password[random.randint(0, lenght)] = random.choice(list(string.ascii_lowercase))
+            password[random.randint(0, lenght)] = string.ascii_lowercase[secrets.randbelow(len(string.ascii_lowercase))]
 
         if any(x.isupper() for x in password):
             flag += 1
         else:
-            password[random.randint(0, lenght)] = random.choice(list(string.ascii_uppercase))
+            password[random.randint(0, lenght)] = string.ascii_uppercase[secrets.randbelow(len(string.ascii_uppercase))]
 
         if any(x.isdigit() for x in password):
             flag += 1
         else:
-            password[random.randint(0, lenght)] = random.choice(list(string.digits))
+            password[random.randint(0, lenght)] = string.digits[secrets.randbelow(len(string.digits))]
+
+        for i in range(1, lenght):
+            if password[i] == password[i - 1]:
+                password[i] = value_pass[secrets.randbelow(len(value_pass))]
+                flag = 0
+                break
 
         if flag == 3:
             return ''.join(password)
@@ -44,3 +50,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

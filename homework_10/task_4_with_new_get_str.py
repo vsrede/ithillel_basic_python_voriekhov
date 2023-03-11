@@ -1,6 +1,6 @@
 from random import randint
 
-game_continue = [{0: 'Okey, let\'s go'}, {1: 'Bye'}]
+game_continue = {'y': True, 'n': False}
 
 
 def get_integer(prompt=None, options=None):
@@ -13,11 +13,18 @@ def get_integer(prompt=None, options=None):
             print('Enter the digit 0 or 1')
 
 
-def get_str(prompt):
+def get_str(prompt=None, options=None):
+    if prompt is None:
+        prompt = 'Do you wan\'t play again? Enter "y"(if yes) or "n"(if no) '
+    a = ''
     while True:
-        value = input(prompt)
-        if value:
-            return value
+        a = input(prompt)
+        if options:
+            if a in options:
+                return options[a]
+            break
+        else:
+            print('Try again, valid enter "y" or "n": ')
 
 
 def game(choice):
@@ -72,11 +79,11 @@ def main():
         else:
             print('You input incorrect, please enter again')
 
-        game_repeat = get_str('Do you wan\'t play again? Enter \'y\' or \'n\': ')
-        if game_repeat != 'y':
+        if get_str('Do you wan\'t play again? Enter \'y\' or \'n\': ', game_continue):
+            print('Okey, let\'s go')
+        else:
             print('Bye')
             break
-
 
 if __name__ == '__main__':
     main()

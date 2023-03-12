@@ -1,83 +1,72 @@
 from random import randint
 
-game_continue = [{0: 'Okey, let\'s go'}, {1: 'Bye'}]
+game_continue = {'y': True, 'n': False}
+game_letters = {'y': True, 'n': False, 's': 'smaller', 'b': 'bigger'}
 
 
-def get_integer(prompt=None, options=None):
+def get_integer(prompt=None, lower_bound=None, upper_bound=None):
     while True:
-        try:
-            choice_input = input(prompt)
-            choice = int(choice_input)
-            return choice
-        except ValueError:
-            print('Enter the digit 0 or 1')
+        digit = input(prompt)
+        if digit.isdigit():
+            digit = int(digit)
+            if lower_bound <= digit <= upper_bound:
+                return digit
+        else:
+            print('Try again, enter only digit')
 
 
-def get_str(prompt):
+def get_str(prompt=None, options=None):
     while True:
-        value = input(prompt)
-        if value:
-            return value
+        answer = input(prompt).lower()
+        if answer in options:
+            return options[answer]
+        else:
+            print('Try again, your enter must be only one letter')
 
 
 def game(choice):
-    digit_list = [x for x in range(1, 101)]
     if choice == 0:
-        digit = randint(1, 100)
-        answer = ''
-        while digit != answer:
-            answer = input('Enter you digit: ')
-            if answer.isdigit():
-                answer = int(answer)
-                if 0 < answer < 101:
-                    if answer == digit:
-                        print("You win!")
-                    elif answer > digit:
-                        print('My digit is less')
-                    elif answer < digit:
-                        print('My digit is bigger')
-            else:
-                print('Try again, you digit must be between 1 and 100 and use only numbers')
+        digit_random = randint(1, 100)
+        answer = 0
+        while digit_random != answer:
+            answer = get_integer('Enter the digit between 0 and 101: ', lower_bound=0, upper_bound=100)
+            if answer == digit_random:
+                print('You win!')
+            elif answer < digit_random:
+                print('Your digit is less')
+            elif answer > digit_random:
+                print('Your digit is bigger')
+
     elif choice == 1:
         low = 1
         high = 100
         answer = ''
         while answer != 'y':
             digit = (low + high) // 2
-            answer = input(f'Is it your number {digit}? If yes enter \'y\', '
-                           f'if now please point your number bigger or smaller? '
-                           f'If smaller enter \'s\', if bigger enter \'b\': ').lower()
-            if answer == 'y':
+            answer = get_str(f'Is it your number {digit}? If yes enter \'y\', '
+                             f'if now please point your number bigger or smaller? '
+                             f'If smaller enter \'s\', if bigger enter \'b\': ', game_letters)
+            if answer == True:
                 print('Yes, i am winner')
                 break
-            elif answer == 's':
+            elif answer == 'smaller':
                 high = digit - 1
-            elif answer == 'b':
+            elif answer == 'bigger':
                 low = digit + 1
-            else:
-                print('Your answer doesn\'t correct, please try again')
-            if high < 1 or low > 100:
-                print('You are liar')
-                break
 
 
 def main():
     while True:
         print('Game 0 -> Guess you')
         print('Game 1 -> Guess I')
-        game_choice = get_integer('Enter 0 or 1: ')
+        game(get_integer('Enter 0 or 1: ', lower_bound=0, upper_bound=1))
 
-        if game_choice == 0 or game_choice == 1:
-            game(game_choice)
+        if get_str('Do you wan\'t play again? Enter \'y\' or \'n\': ', game_letters):
+            print('Okey, let\'s go')
         else:
-            print('You input incorrect, please enter again')
-
-        game_repeat = get_str('Do you wan\'t play again? Enter \'y\' or \'n\': ')
-        if game_repeat != 'y':
             print('Bye')
             break
 
 
 if __name__ == '__main__':
     main()
-

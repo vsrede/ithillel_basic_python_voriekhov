@@ -17,14 +17,14 @@ def pemrtuate(text):  # returns permuted text
                     mix_three_ch = three_ch.copy()
                     while mix_three_ch == three_ch:
                         random.shuffle(mix_three_ch)
-                    new_word.append(''.join(mix_three_ch))
+                    new_word.extend(mix_three_ch)
                     word = word[3:]
                 elif len(word) == 2:
-                    new_word.append(''.join(word[1]))
-                    new_word.append(''.join(word[0]))
+                    new_word.append(word[1])
+                    new_word.append(word[0])
                     word = word[2:]
                 else:
-                    new_word.append(''.join(word))
+                    new_word.append(word)
                     break
             new_word.append(end_letter)
             result.append(''.join(new_word))

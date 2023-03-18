@@ -1,4 +1,4 @@
-from objects import Vehicle, Air_Vehicle, Plane, Helicopter, Car, French_car, Germany_car
+from objects import Vehicle, AirVehicle, Plane, Helicopter, Car, FrenchCar, GermanyCar
 
 
 def test_vehicle():
@@ -7,30 +7,24 @@ def test_vehicle():
     assert example.max_speed == 100, 'Result must be "100"'
     assert example.color == 'grey', 'Result must be "grey"'
 
-    assert example.message_tensile_strength() == 'We do not recommend accelerating the vehicle above the maximum' \
-                                                 ' speed, the tensile strength at speed 120.0 km/h ' \
-                                                 'is 0.5 of the rated',\
-                                                 'Result must be "We do not recommend accelerating the vehicle ' \
-                                                 'above the maximum' \
-                                                 ' speed, the tensile strength at speed 120.0 km/h is 0.5 ' \
-                                                 'of the rated"'
+    assert example.message_tensile_strength() == '''We do not recommend accelerating the vehicle above the maximum \
+speed, the tensile strength at speed 120.0 km/h is 0.5 of the rated''', \
+        '''Result must me "We do not recommend accelerating the vehicle above the maximum \
+speed, the tensile strength at speed 120.0 km/h is 0.5 of the rated"'''
 
     assert example.trigger_mechanism() == 'Button, key or more complex mechanism'
 
 
 def test_air_vehicle():
-    example = Air_Vehicle('Airbus', 100, 'white', max_high=1000)
+    example = AirVehicle('Airbus', 100, 'white', max_high=1000)
     assert example.brand == 'Airbus', 'Result must be "Airbus"'
     assert example.max_speed == 100, 'Result must be "100"'
     assert example.color == 'white', 'Result must be "white"'
     assert example.max_high == 1000, 'Result must be "1000"'
-    assert example.message_tensile_strength() == 'We do not recommend accelerating the vehicle above the maximum' \
-                                                 ' speed, the tensile strength at speed 0.096 mach ' \
-                                                 'is 0.5 of the rated.Be careful, supersonic affects your health',\
-                                                 'Result must be "We do not recommend accelerating the vehicle ' \
-                                                 'above the maximum' \
-                                                 ' speed, the tensile strength at speed 0.096 mach is 0.5 ' \
-                                                 'of the rated.Be careful, supersonic affects your health"'
+    assert example.message_tensile_strength() == '''We do not recommend accelerating the vehicle above the maximum \
+speed, the tensile strength at speed 0.096 mach is 0.5 of the rated''', \
+        '''Result must me "We do not recommend accelerating the vehicle above the maximum \
+speed, the tensile strength at speed 0.096 mach is 0.5 of the rated"'''
 
     assert example.trigger_mechanism() == 'Complex mechanism', 'Result must be "Complex mechanism"'
 
@@ -65,7 +59,7 @@ def test_car():
 
 
 def test_french_car():
-    example = French_car('renault', 100, 'green', engine_volume=1.5, mileage=1000000, suspension='air suspension')
+    example = FrenchCar('renault', 100, 'green', engine_volume=1.5, mileage=1000000, suspension='air suspension')
     assert example.brand == 'renault', 'Result must be "daewoo"'
     assert example.max_speed == 100, 'Result must be "100"'
     assert example.color == 'green', 'Result must be "green"'
@@ -78,37 +72,37 @@ def test_french_car():
 
 
 def test_germany_car():
-    example = Germany_car('volkswagen', 100, 'green', engine_volume=1.5, mileage=1000000)
+    example = GermanyCar('volkswagen', 100, 'green', engine_volume=1.5, mileage=1000000)
     assert example.brand == 'volkswagen', 'Result must be "volkswagen"'
     assert example.max_speed == 100, 'Result must be "100"'
     assert example.color == 'green', 'Result must be "green"'
     assert example.engine_volume == 1.5, 'Result must be "1.5"'
     assert example.mileage == 1000000, 'Result must be "1000000"'
 
-    assert (
-               example.list_auto_repair_shop(example)) == 'Your car is beautiful, you don\'t need to go there', \
-        'Result must be "Your car is beautiful, you don\'t need to go there"'
+    assert (example.list_auto_repair_shop()) == '''Your car is beautiful, you don't need to go there''', \
+        '''Result must be "Your car is beautiful, you don't need to go there"'''
 
-    example = Germany_car('BMW', 100, 'green', engine_volume=1.5, mileage=1000000)
+    example = GermanyCar('BMW', 100, 'green', engine_volume=1.5, mileage=1000000)
     assert example.brand == 'BMW', 'Result must be "BMW"'
     assert example.max_speed == 100, 'Result must be "100"'
     assert example.color == 'green', 'Result must be "green"'
     assert example.engine_volume == 1.5, 'Result must be "1.5"'
     assert example.mileage == 1000000, 'Result must be "1000000"'
 
-    assert (example.list_auto_repair_shop(example)) == 'Your car is beautiful, you don\'t need to go there, just change ' \
-                                                'the oil', \
-        'Result must be "Your car is beautiful, you don\'t need to go there, just change the oil'
+    assert (example.list_auto_repair_shop()) == '''Your car is beautiful, you don't need to go there, \
+just change the oil''',\
+        '''Result must be "Your car is beautiful, you don't need to go there, just change the oil"'''
 
     print('___________tests passed___________')
 
 
 if __name__ == "__main__":
-
-    test_vehicle()
-    test_air_vehicle()
-    test_plane()
-    test_helicopter()
-    test_car()
-    test_french_car()
+    # test_vehicle()
+    # test_air_vehicle()
+    # test_plane()
+    # test_helicopter()
+    # test_car()
+    # test_french_car()
     test_germany_car()
+    example = GermanyCar('volkswagen', 100, 'green', engine_volume=1.5, mileage=1000000)
+    print(example.list_auto_repair_shop())

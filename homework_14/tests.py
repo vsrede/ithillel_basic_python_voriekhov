@@ -105,4 +105,3 @@ if __name__ == "__main__":
     # test_french_car()
     test_germany_car()
     example = GermanyCar('volkswagen', 100, 'green', engine_volume=1.5, mileage=1000000)
-    print(example.list_auto_repair_shop())

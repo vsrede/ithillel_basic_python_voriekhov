@@ -1,12 +1,8 @@
 def get_input_str(prompt=None, options=None):
-    if prompt is None:
-        prompt = 'Enter something...: '
-    a = ''
     while True:
-        a = input(prompt)
-        if options:
-            if a in options:
-                print(options[a])
-                return True
-            else:
-                print('Try again, valid enter "y" or "n": ')
+        user_input = input(prompt) if prompt else input()
+        if not options:
+            return user_input
+        if user_input in options:
+            return options[user_input]
+        print('Try again. Valid options are: {}'.format(', '.join(options.keys())))

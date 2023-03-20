@@ -1,39 +1,42 @@
-import copy
+import json
 from json import load, dumps
 from utilities.check_valid_inp import get_input_str
 import argparse
-#parser.add_argument('-v', '--verbose', action='store_true')
+from utilities.dicts import dict_yes_or_no, dict_yes_or_no_for_save_file
+
 running = True
 
+
 # ------------------------------------------------------------------------------
-# Never use real phone/fax numbers for tests. Use 555 numbers:
-# https://en.wikipedia.org/wiki/555_(telephone_number)
-parser = argparse.ArgumentParser(description='A program that greets you')
+def start_parser():
+    parser = argparse.ArgumentParser(description='A program that greets you')
 
-parser.add_argument('-f', '-filename', dest='path_to_file', type=str, help='File to check')
-parser.add_argument('-v', '-ververbose', dest='activated_decorator', action='store_true', help='Bool for activated_decorator')
+    parser.add_argument('-f', '-filename', dest='path_to_file', type=str, help='File to check')
+    parser.add_argument('-v', '-verbose', dest='activated_decorator', action='store_true',
+                        help='Bool for activated_decorator')
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-address = args.path_to_file
-f = open(address)
-phone_book = load(f)
-activated_decorator = args.activated_decorator
-
-
-dict_yes_or_no = {'y': 'Will be done...', 'n': 'Maybe next time...'}
-dict_yes_or_no_for_save_file = {'y': 'Now let\'s check if the books are different', 'n': 'Maybe next time...'}
+    address = args.path_to_file
+    activated_decorator = args.activated_decorator
+    with open(address) as file:
+        phone_book = load(file)
+        return phone_book, activated_decorator
 
 
 # ------------------------------------------------------------------------------
+phone_book = start_parser()[0]
+
+
+# can't move func start_parser to utility, cyclic import start_end_text <--> start_parser is created
 def start_end_text(func):
 
     def another_func(*args, **kwargs):
-        if activated_decorator:
+        if start_parser()[1]:
             print('Starting to process your request')
         result = func(*args, **kwargs)
 
-        if activated_decorator:
+        if start_parser()[1]:
             print('Processing is over')
 
         return result
@@ -71,14 +74,10 @@ def add_entry_phonebook():
     name = input("    Enter name: ")
     age = int(input("    Enter age: "))
     phone_number = input("    Enter phone num.: ")
-    log_insta = input((" Enter login instagram: "))
+    log_insta = input(" Enter login instagram: ")
 
-    entry = {}
-    entry["surname"] = surname
-    entry["name"] = name
-    entry["age"] = age
-    entry["phone_number"] = phone_number
-    entry["log_insta"] = log_insta
+    entry = {"surname": surname,
+             "name": name, "age": age, "phone_number": phone_number, "log_insta": log_insta}
     phone_book.append(entry)
 
 
@@ -140,14 +139,16 @@ def delete_entry_name_phonebook():
         if name.isalpha():
             break
         else:
-            name = input('Try again, the name can only consist of a letter: ')
+            name = input('Try again, the name can only consist of a letter (latin alphabet): ')
 
     if get_input_str('Are you sure? Enter "y" if yes, "n" if no: ', dict_yes_or_no):
         copy_phone_book = list()
         for i in range(len(phone_book)):
             if phone_book[i]['name'] != name:
                 copy_phone_book.append(phone_book[i])
-        phone_book = copy.deepcopy(copy_phone_book)
+            elif phone_book[i]['name'] == name:
+                print(f'Contact named "{name}" has been deleted')
+        phone_book = [x for x in phone_book]
 
 
 # ------------------------------------------------------------------------------
@@ -161,10 +162,8 @@ def count_all_entries_in_phonebook():
 def print_phonebook_by_age():
     global phone_book
     result = sorted(phone_book, key=lambda x: x['age'])
-    number = 1
-    for entry in phone_book:
-        print_entry(number, entry)
-        number += 1
+    for i, entry in enumerate(result):
+        print_entry(i + 1, entry)
 
 
 # ------------------------------------------------------------------------------
@@ -183,19 +182,29 @@ def print_phonebook_in_insta():
 @start_end_text
 def increase_age():
     global phone_book
-    plus_age = int(input('Enter the digit: '))
+    while True:
+        plus_age = input('Enter the digit: ')
+        if plus_age.isdigit():
+            plus_age = int(plus_age)
+            break
+        else:
+            print('Don\'t enter words')
     if get_input_str('Are you sure? Enter "y" if yes, "n" if no: ', dict_yes_or_no):
         for num in phone_book:
             num['age'] += plus_age
+        print(f'Age has been increased by {plus_age} years')
 
 
 # ------------------------------------------------------------------------------
 @start_end_text
-def danger_contact():
+def unwanted_number():
     global phone_book
-    for num in phone_book:
-        if num['phone_number'][0:4] == '+102':
-            num['name'] = 'Black_list'
+    print('If number started as "+111" will be change name')
+    if get_input_str('Do you wan\'t rename? If yes enter "y", else "n": ',
+                     dict_yes_or_no_for_save_file):
+        for num in phone_book:
+            if num['phone_number'][0:4] == '+111':
+                num['name'] = 'unwanted number'
     return phone_book
 
 
@@ -203,9 +212,12 @@ def danger_contact():
 @start_end_text
 def avr_age_of_all_persons():
     global phone_book
-    mid_sum_age_persons = 0
+    summ_age = 0
     for num in phone_book:
-        mid_sum_age_persons += (num['age'] // 2)
+        summ_age += num['age']
+
+    mid_sum_age_persons = round(summ_age / len(phone_book), 1)
+
     print(f'The rounded average age is: {mid_sum_age_persons}')
 
 
@@ -213,41 +225,26 @@ def avr_age_of_all_persons():
 @start_end_text
 def save_to_file():
     global phone_book
-    if get_input_str('Do you wan\'t save your contact file? If yes enter "y", else "n": ', dict_yes_or_no_for_save_file):
-        f = open('export_phone_book.json')
-        import_phone_book = load(f)
-        f.close()
-        if import_phone_book != phone_book:
-            if get_input_str('The saved file and the file you are trying to save are different, '
-                             'are you sure?: ', dict_yes_or_no):
-                f = open('export_phone_book.json', 'w')
-                contents = dumps(phone_book)
-                f.write(contents)
-                f.close()
-        elif import_phone_book == phone_book:
-            print('The saved file and the file you are trying to save are same')
-        else:
-            print('Maybe next time...')
+    if get_input_str('Do you wan\'t save your contact file? If yes enter "y", else "n": ',
+                     dict_yes_or_no_for_save_file):
+        with open('export_phone_book.json', 'w') as file:
+            contents = dumps(phone_book)
+            file.write(contents)
+        print('Phone book saved to file')
+    else:
+        print('Maybe next time...')
 
 
 # ------------------------------------------------------------------------------
 @start_end_text
 def load_from_file():
-    save_to_file()
     global phone_book
     if get_input_str('Do you want to download a contact book? Enter "y" if yes, "n" if no: ', dict_yes_or_no):
-        f = open('export_phone_book.json')
-        phone_book = load(f)
-        f.close()
-
-
-# ------------------------------------------------------------------------------
-@start_end_text
-def police_contact():
-    global phone_book
-    for num in phone_book:
-        if num['phone_number'][0:4] == '+102':
-            num['name'] = 'Black_list'
+        with open('export_phone_boo.json', 'r') as file:
+            try:
+                phone_book = json.load(file)
+            except ValueError:
+                print('File is not JSON')
 
 
 # ------------------------------------------------------------------------------
@@ -272,7 +269,7 @@ def print_prompt():
     print("     7 - The number of entries in the phonebook")
     print("     8 - Avr. age of all persons")
     print("     9 - Increase age by num. of years")
-    print("     10 - Rename contact 'police' --> 'black list'")
+    print("     10 - Unwanted_number")
     print("     11 - Print phonebook entries instagram")
     print("-----------------------------")
     print("     s - Save to file")
@@ -295,7 +292,7 @@ def main():
                 '7': count_all_entries_in_phonebook,
                 '8': avr_age_of_all_persons,
                 '9': increase_age,
-                '10': police_contact,
+                '10': unwanted_number,
                 '11': print_phonebook_in_insta,
 
                 '0': exit,

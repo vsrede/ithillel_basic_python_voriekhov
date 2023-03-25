@@ -123,17 +123,19 @@ class PhoneBook:
     @staticmethod
     def print_entry(number, entry):
         print("--[ %s ]--------------------------" % number)
-        print("| Surname: %30s |" % entry.surname)
-        print("| Name:    %30s |" % entry.name)
-        print("| Age:     %30s |" % entry.age)
-        print("| Phone:   %30s |" % entry.phone_number)
-        print("| Instagram account:   %18s |" % entry.log_insta)
+        print("| Surname: %30s |" % entry["surname"])
+        print("| Name:    %30s |" % entry["name"])
+        print("| Age:     %30s |" % entry["age"])
+        print("| Phone:   %30s |" % entry["phone_number"])
+        print("| Instagram account:   %18s |" % entry["log_insta"])
         print()
 
-    def add_entry_phonebook(self, record):
-        self.records.append(record)
+    def add_entry_phonebook(self):
+        self.records.append(Record())
 
 
 my_phone = PhoneBook(my_phone)
+my_phone.print_phonebook()
+my_phone.add_entry_phonebook()
 my_phone.print_phonebook()
 

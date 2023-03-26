@@ -1,32 +1,6 @@
 import json
 import argparse
-
-
-def start_parser():
-    parser = argparse.ArgumentParser(description='A program that greets you')
-
-    parser.add_argument('-f', '-filename', dest='path_to_file', type=str, help='File to check')
-    parser.add_argument('-v', '-verbose', dest='activated_decorator', action='store_true',
-                        help='Bool for activated_decorator')
-
-    args = parser.parse_args()
-
-    address = args.path_to_file
-    activated_decorator = args.activated_decorator
-    with open(address) as file:
-        phone_book = json.load(file)
-        return phone_book, activated_decorator
-
-
-my_phone_book = [{"name": "Gav", "surname": "Super", "age": 1, "phone_number": "+18005550102", "log_insta": "super1"},
-                 {"name": "Tr", "surname": "Super", "age": 2, "phone_number": "+18005550102", "log_insta": "super2"},
-                 {"name": "Tr", "surname": "Super", "age": 1, "phone_number": "+18005550102", "log_insta": "super3"},
-                 {"name": "Mya", "surname": "Super", "age": 10, "phone_number": "+18005550102", "log_insta": "super4"},
-                 {"name": "Tr", "surname": "Super", "age": 8, "phone_number": "+18005550102", "log_insta": "super5"},
-                 {"name": "Tr", "surname": "Super", "age": 3, "phone_number": "+18005550102", "log_insta": "super6"}]
-dict_yes_or_no = {'y': 'Will be done...', 'n': 'Maybe next time...'}
-dict_yes_or_no_for_save_file = {'y': 'Now let\'s check if the books are different', 'n': 'Maybe next time...'}
-
+running = True
 
 class Record:
     def __init__(self):
@@ -138,6 +112,7 @@ class PhoneBook:
     def __init__(self, records=None):
         self.records = [] if not records else records
 
+
     @staticmethod
     def get_input_str(prompt=None, options=None):
         while True:
@@ -239,7 +214,8 @@ class PhoneBook:
 
     def print_phonebook_by_age(self):
         """The function sorts the book in ascending order of the contact's age"""
-        self.records = sorted(self.records, key=lambda x: x['age'])
+        result = sorted(self.records, key=lambda x: x['age'])
+        print(result)
 
     def increase_age(self):
         """The function increases the age of all occurrences by the entered number"""
@@ -290,69 +266,110 @@ class PhoneBook:
         return my_phone_new
 
 
-class Menu:
+def start_parser():
+    parser = argparse.ArgumentParser(description='A program that greets you')
 
-    def __init__(self):
-        pass
+    parser.add_argument('-f', '-filename', dest='path_to_file', type=str, help='File to check')
+    parser.add_argument('-v', '-verbose', dest='activated_decorator', action='store_true',
+                        help='Bool for activated_decorator')
 
-    @staticmethod
-    def printError(message):
-        print("ERROR: %s" % message)
+    args = parser.parse_args()
 
-    @staticmethod
-    def printInfo(message):
-        print("INFO: %s" % message)
+    address = args.path_to_file
+    activated_decorator = args.activated_decorator
+    with open(address) as file:
+        phone_book = json.load(file)
+        return phone_book, activated_decorator
 
-    @staticmethod
-    def run():
 
-        while True:
-            try:
-                menu = {
-                    "1": PhoneBook.print_phonebook,
-                    "2": PhoneBook.print_phonebook_by_age,
-                    "3": PhoneBook.add_entry_phonebook,
-                    "4": PhoneBook.find_entry_name_phonebook,
-                    "5": PhoneBook.find_entry_age_phonebook,
-                    "6": PhoneBook.delete_entry_name_phonebook,
-                    "7": PhoneBook.count_all_entries_in_phonebook,
-                    "8": PhoneBook.avr_age_of_all_persons,
-                    "9": PhoneBook.increase_age,
-                    # "0": ,
-                    # "s": PhoneBook.save_to_file(),
-                    # "l": PhoneBook.load_from_file()
-                }
-                Menu.print_prompt()
-                user_input = input("phonebook> ")
-                menu[user_input]()
 
-            except Exception as ex:
-                Menu.printError("Something went wrong. Try again...")
+# my_phone_book = PhoneBook(start_parser()[0])
+my_phone_book = [
+  {"name": "Gus", "surname": "Super", "age": 51, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Bus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Zus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Cus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Vus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Bus", "surname": "Super", "age": 1, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Mus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Aus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Dus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+  {"name": "Fus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"}
+]
+my_phone_book = PhoneBook(my_phone_book)
+dict_yes_or_no = {'y': 'Will be done...', 'n': 'Maybe next time...'}
+dict_yes_or_no_for_save_file = {'y': 'Now let\'s check if the books are different', 'n': 'Maybe next time...'}
 
-    @staticmethod
-    def print_prompt():
-        print()
-        print()
-        print()
-        print("~ Welcome to phonebook ~")
-        print("Select one of actions below:")
-        print("     1 - Print phonebook entries")
-        print("     2 - Print phonebook entries (by age)")
-        print("     3 - Add new entry")
-        print("     4 - Find entry by name")
-        print("     5 - Find entry by age")
-        print("     6 - Delete entry by name")
-        print("     7 - The number of entries in the phonebook")
-        print("     8 - Avr. age of all persons")
-        print("     9 - Increase age by num. of years")
-        print("     10 - Unwanted_number")
-        print("     11 - Print phonebook entries instagram")
-        print("-----------------------------")
-        print("     s - Save to file")
-        print("     l - Load from file")
-        print("     0 - Exit")
-        print()
 
+def printError(message):
+    print("ERROR: %s" % message)
+
+
+def printInfo(message):
+    print("INFO: %s" % message)
+
+
+def exit():
+    global running
+    running = False
+
+
+def print_prompt():
+    print()
+    print()
+    print()
+    print("~ Welcome to phonebook ~")
+    print("Select one of actions below:")
+    print("     1 - Print phonebook entries")
+    print("     2 - Print phonebook entries (by age)")
+    print("     3 - Add new entry")
+    print("     4 - Find entry by name")
+    print("     5 - Find entry by age")
+    print("     6 - Delete entry by name")
+    print("     7 - The number of entries in the phonebook")
+    print("     8 - Avr. age of all persons")
+    print("     9 - Increase age by num. of years")
+    print("-----------------------------")
+    print("     s - Save to file")
+    print("     l - Load from file")
+    print("     0 - Exit")
+    print()
+
+
+# ------------------------------------------------------------------------------
+def main():
+    while running:
+        try:
+            menu = {
+                '1': my_phone_book.print_phonebook,
+                '2': my_phone_book.print_phonebook_by_age,
+                '3': my_phone_book.add_entry_phonebook,
+                '4': my_phone_book.find_entry_name_phonebook,
+                '5': my_phone_book.find_entry_age_phonebook,
+                '6': my_phone_book.delete_entry_name_phonebook,
+                '7': my_phone_book.count_all_entries_in_phonebook,
+                '8': my_phone_book.avr_age_of_all_persons,
+                '9': my_phone_book.increase_age,
+
+                '0': exit,
+                's': my_phone_book.save_to_file,
+                'l': my_phone_book.load_from_file,
+            }
+
+            print_prompt()
+            user_input = input("phonebook> ")
+            menu[user_input]()
+
+        except Exception as ex:
+            printError("Something went wrong. Try again...")
+
+
+# ------------------------------------------------------------------------------
+if __name__ == '__main__':
+    main()
 
 # my_phone_book = PhoneBook(my_phone_book)
 # my_phone_book.print_phonebook()

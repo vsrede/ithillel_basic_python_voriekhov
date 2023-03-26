@@ -1,4 +1,4 @@
-verbose = False
+from parser import verbose
 
 
 def start_end_decorator(func):

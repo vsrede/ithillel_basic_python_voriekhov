@@ -1,8 +1,14 @@
 import json
-import argparse
+
+from utilities.decorator import start_end_decorator
+from utilities.dicts import dict_yes_or_no, dict_yes_or_no_for_save_file
+from utilities.parser import start_parser
+
 running = True
 
+
 class Record:
+    """Class for creating contact attributes and validating incoming data"""
     def __init__(self):
         self._name = ""
         self._surname = ""
@@ -100,6 +106,7 @@ class Record:
                 print(e)
 
     def print_record(self, number):
+        """The function can print a contact, I don’t know why I did it here initially, I didn’t delete it"""
         print("--[ %s ]--------------------------" % number)
         print("| Surname: %20s |" % self._surname)
         print("| Name:    %20s |" % self._name)
@@ -109,12 +116,13 @@ class Record:
 
 
 class PhoneBook:
+    """The class contains the main functions for working with the phone book"""
     def __init__(self, records=None):
         self.records = [] if not records else records
 
-
     @staticmethod
     def get_input_str(prompt=None, options=None):
+        """Helper function to validate information from the user. Answer options are in the dictionary"""
         while True:
             user_input = input(prompt) if prompt else input()
             if not options:
@@ -124,6 +132,7 @@ class PhoneBook:
             print('Try again. Valid options are: {}'.format(', '.join(options.keys())))
 
     def print_phonebook(self):
+        """Template function () displays objects on the screen"""
         print("#########  Phone book  ##########")
 
         number = 1
@@ -132,7 +141,9 @@ class PhoneBook:
             number += 1
 
     @staticmethod
+    @start_end_decorator
     def print_entry(number, entry):
+        """The function is a template for displaying a contact"""
         print("--[ %s ]--------------------------" % number)
         print("| Surname: %30s |" % entry["surname"])
         print("| Name:    %30s |" % entry["name"])
@@ -141,6 +152,15 @@ class PhoneBook:
         print("| Instagram account:   %18s |" % entry["log_insta"])
         print()
 
+    def print_phonebook_by_age(self):
+        """The function sorts the book in ascending order of the contact's age"""
+        result = sorted(self.records, key=lambda x: x['age'])
+        number = 1
+        for entry in result:
+            self.print_entry(number, entry)
+            number += 1
+
+    @start_end_decorator
     def add_entry_phonebook(self):
         """The function create a new Record(obj) and add it to the book"""
         a = Record()
@@ -150,6 +170,7 @@ class PhoneBook:
                              "phone_number": a.phone_number,
                              "log_insta": a.log_insta
                              })
+        print("Successful")
 
     def find_entry_age_phonebook(self):
         """The function creates an age variable and searches the phonebook for occurrences with the given age,
@@ -208,15 +229,12 @@ class PhoneBook:
             print(f"No users found with '{user_input}' name")
         my_phone_book.print_phonebook()
 
+    @start_end_decorator
     def count_all_entries_in_phonebook(self):
         """The function prints the length of the book"""
-        print(len(self.records))
+        print("Quantity are", len(self.records))
 
-    def print_phonebook_by_age(self):
-        """The function sorts the book in ascending order of the contact's age"""
-        result = sorted(self.records, key=lambda x: x['age'])
-        print(result)
-
+    @start_end_decorator
     def increase_age(self):
         """The function increases the age of all occurrences by the entered number"""
         while True:
@@ -231,6 +249,7 @@ class PhoneBook:
                 num['age'] += user_input
             print(f'Age has been increased by {user_input} years')
 
+    @start_end_decorator
     def avr_age_of_all_persons(self):
         """The function prints the average age of all contacts in the book"""
         summ_age = 0
@@ -266,42 +285,7 @@ class PhoneBook:
         return my_phone_new
 
 
-def start_parser():
-    parser = argparse.ArgumentParser(description='A program that greets you')
-
-    parser.add_argument('-f', '-filename', dest='path_to_file', type=str, help='File to check')
-    parser.add_argument('-v', '-verbose', dest='activated_decorator', action='store_true',
-                        help='Bool for activated_decorator')
-
-    args = parser.parse_args()
-
-    address = args.path_to_file
-    activated_decorator = args.activated_decorator
-    with open(address) as file:
-        phone_book = json.load(file)
-        return phone_book, activated_decorator
-
-
-
-# my_phone_book = PhoneBook(start_parser()[0])
-my_phone_book = [
-  {"name": "Gus", "surname": "Super", "age": 51, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Bus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Zus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Cus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Vus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Bus", "surname": "Super", "age": 1, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Mus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Aus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Dus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-  {"name": "Fus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"}
-]
-my_phone_book = PhoneBook(my_phone_book)
-dict_yes_or_no = {'y': 'Will be done...', 'n': 'Maybe next time...'}
-dict_yes_or_no_for_save_file = {'y': 'Now let\'s check if the books are different', 'n': 'Maybe next time...'}
+my_phone_book = PhoneBook(start_parser()[0])
 
 
 def printError(message):
@@ -339,7 +323,6 @@ def print_prompt():
     print()
 
 
-# ------------------------------------------------------------------------------
 def main():
     while running:
         try:
@@ -363,7 +346,7 @@ def main():
             user_input = input("phonebook> ")
             menu[user_input]()
 
-        except Exception as ex:
+        except Exception:
             printError("Something went wrong. Try again...")
 
 
@@ -384,3 +367,19 @@ if __name__ == '__main__':
 # my_phone_book.save_to_file()
 # my_phone_book = PhoneBook(PhoneBook.load_from_file())
 
+# my_phone_book = [
+#   {"name": "Gus", "surname": "Super", "age": 51, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Bus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Zus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Cus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Vus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Bus", "surname": "Super", "age": 1, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Mus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Aus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Dus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
+#   {"name": "Fus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"}
+# ]
+# my_phone_book = PhoneBook(my_phone_book)

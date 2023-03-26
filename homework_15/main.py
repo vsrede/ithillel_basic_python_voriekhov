@@ -60,7 +60,7 @@ class Record:
         if value.isdigit() and len(value) <= 12:
             self._phone_number = value
         else:
-            raise ValueError("Invalid input! Number should be in a valid format, try again:")
+            raise ValueError("Invalid input! Number should be in tests valid format, try again:")
 
     @property
     def log_insta(self):
@@ -106,7 +106,7 @@ class Record:
                 print(e)
 
     def print_record(self, number):
-        """The function can print a contact, I don’t know why I did it here initially, I didn’t delete it"""
+        """The function can print tests contact, I don’t know why I did it here initially, I didn’t delete it"""
         print("--[ %s ]--------------------------" % number)
         print("| Surname: %20s |" % self._surname)
         print("| Name:    %20s |" % self._name)
@@ -143,7 +143,7 @@ class PhoneBook:
     @staticmethod
     @start_end_decorator
     def print_entry(number, entry):
-        """The function is a template for displaying a contact"""
+        """The function is tests template for displaying tests contact"""
         print("--[ %s ]--------------------------" % number)
         print("| Surname: %30s |" % entry["surname"])
         print("| Name:    %30s |" % entry["name"])
@@ -162,7 +162,7 @@ class PhoneBook:
 
     @start_end_decorator
     def add_entry_phonebook(self):
-        """The function create a new Record(obj) and add it to the book"""
+        """The function create tests new Record(obj) and add it to the book"""
         a = Record()
         self.records.append({"name": a.name,
                              "surname": a.surname,
@@ -174,7 +174,7 @@ class PhoneBook:
 
     def find_entry_age_phonebook(self):
         """The function creates an age variable and searches the phonebook for occurrences with the given age,
-        if it finds a print of the occurrence"""
+        if it finds tests print of the occurrence"""
         user_input = input("Enter age: ")
         while True:
             if user_input.isdigit():
@@ -191,7 +191,7 @@ class PhoneBook:
 
     def find_entry_name_phonebook(self):
         """The function creates an age variable and searches the phonebook for occurrences with the given name,
-        if it finds a print of the occurrence"""
+        if it finds tests print of the occurrence"""
         user_input = input("Enter name: ")
         while True:
             if user_input.isalpha():
@@ -207,8 +207,8 @@ class PhoneBook:
             print("Not found bro, don't be sad")
 
     def delete_entry_name_phonebook(self):
-        """The function creates a variable with a name that the user enters. If such a name exists in the phonebook,
-        delete it, print the number of occurrences removed and the edited phonebook. Use func 'get_input_str'
+        """The function creates tests variable with tests name that the user enters. If such tests name exists in the
+        phonebook, delete it, print the number of occurrences removed and the edited phonebook. Use func 'get_input_str'
         to get confirmation from the user"""
         user_input = input("Enter name: ").capitalize()
         counter = 0
@@ -227,7 +227,6 @@ class PhoneBook:
 
         if counter == 0:
             print(f"No users found with '{user_input}' name")
-        my_phone_book.print_phonebook()
 
     @start_end_decorator
     def count_all_entries_in_phonebook(self):
@@ -273,7 +272,7 @@ class PhoneBook:
 
     @staticmethod
     def load_from_file():
-        if PhoneBook.get_input_str(prompt="Do you want to download a contact book? Enter 'y' if yes, 'n' if no: ",
+        if PhoneBook.get_input_str(prompt="Do you want to download tests contact book? Enter 'y' if yes, 'n' if no: ",
                                    options=dict_yes_or_no):
             with open('export_phone_book.json', 'r') as file:
                 try:
@@ -353,33 +352,3 @@ def main():
 # ------------------------------------------------------------------------------
 if __name__ == '__main__':
     main()
-
-# my_phone_book = PhoneBook(my_phone_book)
-# my_phone_book.print_phonebook()
-# my_phone_book.add_entry_phonebook()
-# my_phone_book.find_entry_age_phonebook()
-# my_phone_book.find_entry_name_phonebook()
-# my_phone_book.delete_entry_name_phonebook()
-# my_phone_book.count_all_entries_in_phonebook()
-# my_phone_book.print_phonebook_by_age()
-# my_phone_book.increase_age()
-# my_phone_book.avr_age_of_all_persons()
-# my_phone_book.save_to_file()
-# my_phone_book = PhoneBook(PhoneBook.load_from_file())
-
-# my_phone_book = [
-#   {"name": "Gus", "surname": "Super", "age": 51, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Bus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Zus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Cus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Vus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Bus", "surname": "Super", "age": 1, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Nus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Mus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Aus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Sus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Dus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"},
-#   {"name": "Fus", "surname": "Super", "age": 50, "phone_number": "+18005550102", "log_insta": "cynepcyc"}
-# ]
-# my_phone_book = PhoneBook(my_phone_book)

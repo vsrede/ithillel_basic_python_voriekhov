@@ -1,4 +1,4 @@
-from parser import verbose
+from utilities.parser import verbose
 
 
 def start_end_decorator(func):
@@ -8,5 +8,5 @@ def start_end_decorator(func):
         func(*args, **kwargs)
         if verbose:
             print("Processing is over")
-
+        return func
     return wrapper

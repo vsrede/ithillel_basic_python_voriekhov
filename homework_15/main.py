@@ -2,9 +2,7 @@ import json
 
 from utilities.decorator import start_end_decorator
 from utilities.dicts import dict_yes_or_no, dict_yes_or_no_for_save_file
-from utilities.parser import start_parser
-
-running = True
+from utilities.parser import my_phone_book
 
 
 class Record:
@@ -107,12 +105,12 @@ class Record:
 
     def print_record(self, number):
         """The function can print tests contact, I don’t know why I did it here initially, I didn’t delete it"""
-        print("--[ %s ]--------------------------" % number)
-        print("| Surname: %20s |" % self._surname)
-        print("| Name:    %20s |" % self._name)
-        print("| Age:     %20s |" % self._age)
-        print("| Phone:   %20s |" % self._phone_number)
-        print("| Email:   %20s |" % self._log_insta)
+        print(f"--[ {number} ]--------------------------")
+        print(f"| Surname: {self._surname:>20} |")
+        print(f"| Name:    {self._name:>20} |")
+        print(f"| Age:     {self._age:>20} |")
+        print(f"| Phone:   {self._phone_number:>20} |")
+        print(f"| Email:   {self._log_insta:>20} |")
 
 
 class PhoneBook:
@@ -131,6 +129,7 @@ class PhoneBook:
                 return options[user_input]
             print('Try again. Valid options are: {}'.format(', '.join(options.keys())))
 
+    @start_end_decorator
     def print_phonebook(self):
         """Template function () displays objects on the screen"""
         print("#########  Phone book  ##########")
@@ -141,15 +140,15 @@ class PhoneBook:
             number += 1
 
     @staticmethod
-    @start_end_decorator
     def print_entry(number, entry):
         """The function is tests template for displaying tests contact"""
-        print("--[ %s ]--------------------------" % number)
-        print("| Surname: %30s |" % entry["surname"])
-        print("| Name:    %30s |" % entry["name"])
-        print("| Age:     %30s |" % entry["age"])
-        print("| Phone:   %30s |" % entry["phone_number"])
-        print("| Instagram account:   %18s |" % entry["log_insta"])
+        """The function is tests template for displaying tests contact"""
+        print(f"--[ {number} ]--------------------------")
+        print(f"| Surname: {entry['surname']:>30} |")
+        print(f"| Name:    {entry['name']:>30} |")
+        print(f"| Age:     {entry['age']:>30} |")
+        print(f"| Phone:   {entry['phone_number']:>30} |")
+        print(f"| Instagram account:   {entry['log_insta']:>18} |")
         print()
 
     def print_phonebook_by_age(self):
@@ -163,12 +162,12 @@ class PhoneBook:
     @start_end_decorator
     def add_entry_phonebook(self):
         """The function create tests new Record(obj) and add it to the book"""
-        a = Record()
-        self.records.append({"name": a.name,
-                             "surname": a.surname,
-                             "age": a.age,
-                             "phone_number": a.phone_number,
-                             "log_insta": a.log_insta
+        new_record = Record()
+        self.records.append({"name": new_record.name,
+                             "surname": new_record.surname,
+                             "age": new_record.age,
+                             "phone_number": new_record.phone_number,
+                             "log_insta": new_record.log_insta
                              })
         print("Successful")
 
@@ -181,12 +180,14 @@ class PhoneBook:
                 break
             else:
                 user_input = input("Invalid input! Name can be only contain digits, try again: ")
-        counter = 0
-        for num in self.records:
+
+        found = False
+        for i, num in enumerate(self.records, start=1):
             if num['age'] == int(user_input):
-                counter += 1
-                PhoneBook.print_entry(counter, num)
-        if counter == 0:
+                found = True
+                PhoneBook.print_entry(i, num)
+
+        if not found:
             print("Not found bro, don't be sad")
 
     def find_entry_name_phonebook(self):
@@ -251,12 +252,7 @@ class PhoneBook:
     @start_end_decorator
     def avr_age_of_all_persons(self):
         """The function prints the average age of all contacts in the book"""
-        summ_age = 0
-
-        for num in self.records:
-            summ_age += num['age']
-        mid_sum_age = round(summ_age / len(self.records), 1)
-        print(f"Average age of your contacts {mid_sum_age} years")
+        print(round(sum([x['age'] for x in self.records]) / len(self.records), 1))
 
     @staticmethod
     def save_to_file():
@@ -284,20 +280,19 @@ class PhoneBook:
         return my_phone_new
 
 
-my_phone_book = PhoneBook(start_parser()[0])
+my_phone_book = PhoneBook(my_phone_book)
 
 
-def printError(message):
-    print("ERROR: %s" % message)
+def print_error(message):
+    print(f"ERROR: {message}")
 
 
-def printInfo(message):
-    print("INFO: %s" % message)
+def print_info(message):
+    print(f"INFO: {message}")
 
 
 def exit():
-    global running
-    running = False
+    return False
 
 
 def print_prompt():
@@ -323,32 +318,38 @@ def print_prompt():
 
 
 def main():
+
+    running = True
+
+    menu = {
+        '1': my_phone_book.print_phonebook,
+        '2': my_phone_book.print_phonebook_by_age,
+        '3': my_phone_book.add_entry_phonebook,
+        '4': my_phone_book.find_entry_name_phonebook,
+        '5': my_phone_book.find_entry_age_phonebook,
+        '6': my_phone_book.delete_entry_name_phonebook,
+        '7': my_phone_book.count_all_entries_in_phonebook,
+        '8': my_phone_book.avr_age_of_all_persons,
+        '9': my_phone_book.increase_age,
+        '0': exit,
+        's': my_phone_book.save_to_file,
+        'l': my_phone_book.load_from_file,
+    }
+
     while running:
         try:
-            menu = {
-                '1': my_phone_book.print_phonebook,
-                '2': my_phone_book.print_phonebook_by_age,
-                '3': my_phone_book.add_entry_phonebook,
-                '4': my_phone_book.find_entry_name_phonebook,
-                '5': my_phone_book.find_entry_age_phonebook,
-                '6': my_phone_book.delete_entry_name_phonebook,
-                '7': my_phone_book.count_all_entries_in_phonebook,
-                '8': my_phone_book.avr_age_of_all_persons,
-                '9': my_phone_book.increase_age,
-
-                '0': exit,
-                's': my_phone_book.save_to_file,
-                'l': my_phone_book.load_from_file,
-            }
-
             print_prompt()
             user_input = input("phonebook> ")
-            menu[user_input]()
-
+            action = menu.get(user_input)
+            if action:
+                running = action()
+            else:
+                print_error("Invalid input. Try again...")
         except Exception:
-            printError("Something went wrong. Try again...")
+            print_error("Something went wrong. Try again...")
+
+    print("Goodbye!")
 
 
-# ------------------------------------------------------------------------------
 if __name__ == '__main__':
     main()

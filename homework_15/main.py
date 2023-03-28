@@ -3,6 +3,7 @@ import json
 from utilities.decorator import start_end_decorator
 from utilities.dicts import dict_yes_or_no, dict_yes_or_no_for_save_file
 from utilities.parser import my_phone_book
+# running = True
 
 
 class Record:
@@ -212,22 +213,27 @@ class PhoneBook:
         phonebook, delete it, print the number of occurrences removed and the edited phonebook. Use func 'get_input_str'
         to get confirmation from the user"""
         user_input = input("Enter name: ").capitalize()
-        counter = 0
+        # counter = 0
         while True:
             if user_input.isalpha():
                 break
             else:
                 user_input = input("Invalid input! Surname can be only contain letters, try again: ").capitalize()
-        records_copy = self.records.copy()
-        for num in records_copy:
-            if num['name'] == user_input:
-                counter += 1
-                if PhoneBook.get_input_str(prompt="Are your sure? ", options=dict_yes_or_no):
-                    self.records.remove(num)
-                    print(f"The {counter} contact has been deleted")
+        length_start = 0
+        # records_copy = self.records.copy()
+        # for num in records_copy:
+        #     if num['name'] == user_input:
+        #         counter += 1
+        #         if PhoneBook.get_input_str(prompt="Are your sure? ", options=dict_yes_or_no):
+        #             self.records.remove(num)
+        #             print(f"The {counter} contact has been deleted")
+        #
+        # if counter == 0:
+        #     print(f"No users found with '{user_input}' name")
+        if PhoneBook.get_input_str(prompt="Are your sure? ", options=dict_yes_or_no):
+            self.records = list(filter(lambda x: x['name'] != user_input, self.records))
 
-        if counter == 0:
-            print(f"No users found with '{user_input}' name")
+        print(f"{len(self.records) - length_start} records were removed")
 
     @start_end_decorator
     def count_all_entries_in_phonebook(self):
@@ -292,6 +298,8 @@ def print_info(message):
 
 
 def exit():
+    # global running
+    # running = False
     return False
 
 
@@ -318,37 +326,34 @@ def print_prompt():
 
 
 def main():
-
     running = True
-
-    menu = {
-        '1': my_phone_book.print_phonebook,
-        '2': my_phone_book.print_phonebook_by_age,
-        '3': my_phone_book.add_entry_phonebook,
-        '4': my_phone_book.find_entry_name_phonebook,
-        '5': my_phone_book.find_entry_age_phonebook,
-        '6': my_phone_book.delete_entry_name_phonebook,
-        '7': my_phone_book.count_all_entries_in_phonebook,
-        '8': my_phone_book.avr_age_of_all_persons,
-        '9': my_phone_book.increase_age,
-        '0': exit,
-        's': my_phone_book.save_to_file,
-        'l': my_phone_book.load_from_file,
-    }
-
     while running:
         try:
+            menu = {
+                '1': my_phone_book.print_phonebook,
+                '2': my_phone_book.print_phonebook_by_age,
+                '3': my_phone_book.add_entry_phonebook,
+                '4': my_phone_book.find_entry_name_phonebook,
+                '5': my_phone_book.find_entry_age_phonebook,
+                '6': my_phone_book.delete_entry_name_phonebook,
+                '7': my_phone_book.count_all_entries_in_phonebook,
+                '8': my_phone_book.avr_age_of_all_persons,
+                '9': my_phone_book.increase_age,
+
+                '0': exit,
+                's': my_phone_book.save_to_file,
+                'l': my_phone_book.load_from_file,
+            }
+
             print_prompt()
             user_input = input("phonebook> ")
-            action = menu.get(user_input)
-            if action:
-                running = action()
+            if user_input == '0':
+                running = exit()
             else:
-                print_error("Invalid input. Try again...")
+                menu[user_input]()
+
         except Exception:
             print_error("Something went wrong. Try again...")
-
-    print("Goodbye!")
 
 
 if __name__ == '__main__':

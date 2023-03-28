@@ -18,4 +18,5 @@ def start_parser():
         return phone_book, activated_decorator
 
 
-verbose = start_parser()[1]
+my_phone_book, verbose = start_parser()
+
